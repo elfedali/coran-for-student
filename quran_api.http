@@ -1,0 +1,33 @@
+@hostname = https://quranapi.pages.dev/api
+@audioHostname = https://the-quran-project.github.io/Quran-Audio/Data/
+@contentType = application/json
+@surahNo = 1
+@ayahNo = 2
+@translationName = arabic1
+@reciterNo = 2
+
+### Quran API Endpoints 
+
+#### Get All Surahs
+GET {{hostname}}/surah.json
+Content-Type: {{contentType}}
+
+#### Make a GET request to /<surahNo>/<ayahNo>.json
+GET {{hostname}}/{{surahNo}}/{{ayahNo}}.json
+Content-Type: {{contentType}}
+
+#### Make a GET request to /<surahNo>.json
+GET {{hostname}}/{{surahNo}}.json
+Content-Type: {{contentType}}
+#### Make a GET request to api/tafsir/<surahNo>_<ayahNo>.json
+GET {{hostname}}/tafsir/{{surahNo}}_{{ayahNo}}.json
+Content-Type: {{contentType}}
+#### Make a GET request to /<translationName>.json
+GET {{hostname}}/{{translationName}}.json
+Content-Type: {{contentType}}
+#### Make a GET request to /reciters.json
+GET {{hostname}}/reciters.json
+Content-Type: {{contentType}}
+#### Make a GET request to /<reciterNo>/<surahNo>_<ayahNo>.mp3
+GET {{audioHostname}}/{{reciterNo}}/{{surahNo}}_{{ayahNo}}.mp3
+Content-Type: {{contentType}}

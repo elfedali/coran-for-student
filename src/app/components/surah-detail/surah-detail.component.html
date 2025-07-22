@@ -1,0 +1,81 @@
+<div class="surah-detail-container">
+  <div class="header" *ngIf="surahDetail">
+    <button class="back-button" (click)="goBack()">← Back to Surahs</button>
+    <div class="surah-info">
+      <h1 class="surah-name">{{ surahDetail.surahNameArabic }}</h1>
+      <h2 class="surah-transliteration">{{ surahDetail.surahName }}</h2>
+      <h3 class="surah-translation">{{ surahDetail.surahNameTranslation }}</h3>
+      <div class="surah-meta">
+        <span class="surah-type">{{ surahDetail.revelationPlace }}</span>
+        <span class="verses-count">{{ surahDetail.totalAyah }} verses</span>
+      </div>
+    </div>
+
+    <!-- Chapter Audio Controls -->
+    <div class="chapter-audio-controls">
+      <button
+        class="audio-button chapter-play-button"
+        (click)="playFullChapter()"
+        [disabled]="isLoadingChapterAudio"
+      >
+        <span *ngIf="isLoadingChapterAudio">⏳</span>
+        <span *ngIf="isPlayingChapter && !isPausedChapter">⏸️</span>
+        <span *ngIf="!isPlayingChapter || isPausedChapter">▶️</span>
+        {{ isPlayingChapter ? "Pause Chapter" : "Play Full Chapter" }}
+      </button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading Surah...</div>
+
+  <div class="error" *ngIf="error">
+    {{ error }}
+    <button class="retry-button" (click)="loadSurah()">Retry</button>
+  </div>
+
+  <div class="verses-container" *ngIf="!loading && !error && surahDetail">
+    <div
+      *ngFor="
+        let arabicVerse of surahDetail.arabic1;
+        trackBy: trackByVerseId;
+        let i = index
+      "
+      class="verse-card"
+    >
+      <div class="verse-header">
+        <span class="verse-number">{{ i + 1 }}</span>
+      </div>
+
+      <div class="verse-content">
+        <div class="arabic-text">{{ arabicVerse }}</div>
+        <div
+          class="translation"
+          *ngIf="surahDetail.english && surahDetail.english[i]"
+        >
+          {{ surahDetail.english[i] }}
+        </div>
+      </div>
+
+      <div class="audio-controls">
+        <button
+          class="audio-button play-button"
+          (click)="playVerse(i + 1)"
+          [disabled]="isLoadingAudio === i + 1"
+        >
+          <span *ngIf="isLoadingAudio === i + 1">⏳</span>
+          <span *ngIf="currentlyPlaying === i + 1 && !isPaused">⏸️</span>
+          <span *ngIf="currentlyPlaying !== i + 1 || isPaused">▶️</span>
+          Play
+        </button>
+
+        <button
+          class="audio-button repeat-button"
+          (click)="repeatVerse(i + 1)"
+          [disabled]="isLoadingAudio === i + 1"
+        >
+          🔁 Repeat
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
